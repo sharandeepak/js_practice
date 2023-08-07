@@ -4,6 +4,7 @@ abstract class BaseClass<T extends Interface> {
     create() {
         this.repository.printHelloWorld();
     }
+    abstract implementIt();
 }
 
 interface Interface {
@@ -23,13 +24,20 @@ class BookingRepository implements Interface {
 }
 
 class TrainService extends BaseClass<TrainRepository> {
+    implementIt() {
+        throw new Error("Method not implemented.");
+    }
     constructor() {
         let trainRepository = new TrainRepository();
         super(trainRepository);
     }
+    
 }
 
 class BookingService extends BaseClass<BookingRepository> {
+    implementIt() {
+        throw new Error("Method not implemented.");
+    }
     constructor() {
         let bookingRepository = new BookingRepository();
         super(bookingRepository);
