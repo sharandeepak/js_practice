@@ -30,11 +30,6 @@ function getAndSet() {
     }
 }
 
-redis.zadd("sortedSet", 1, "one", 2, "dos", 4, "quatro", 3, "three");
-redis.zrange("sortedSet", 0, 2, "WITHSCORES").then((elements) => {
-	console.log(elements);
-});
-
 async function listImpl() {
     try {
         const employess = ["sharan", "sakthi", "bharathi"];
@@ -81,14 +76,37 @@ async function hashImpl() {
     }
 }
 
-async function globalFunction() {
-    await listImpl();
-    await setImpl();
-    await hashImpl();
-    await redis.flushdb();
-    await redis.quit();
+async function checkIfKeyExists(): Promise<boolean> {
+    if(await redis.get("expiringKey")) {
+        console.log(await redis.get("expiringKey"));
+        
+        return true;
+    }
+    return false;
 }
-listImpl();
+async function expireImpl() {
+    try {
+        // await redis.incr("expiringKey");
+        // await redis.expire('expiringKey', 100);
+        // console.log(await checkIfKeyExists());
+        // setTimeout(async () => {
+        //     console.log('after 5 seconds')
+        //     console.log(await checkIfKeyExists());
+        // }, 5000);
+        let variable = await redis.get('nithi');
+        console.log(variable);
+        
+    } catch (error) {
+        console.error('An error occurred:', error);
+    }
+}
+
+async function globalFunction() {
+    await expireImpl();
+    // await redis.flushdb();
+    // await redis.quit();
+}
+// listImpl();
 globalFunction();
 
 
